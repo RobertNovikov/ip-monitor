@@ -15,3 +15,5 @@ services:
     image: postgres:alpine3.15
     environment:
       POSTGRES_PASSWORD: example
+    ports:
+      - 5432:5432
