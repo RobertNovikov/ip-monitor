@@ -1,4 +1,4 @@
-version: "3.3"
+version: "3.9"
 services:
   app:
     build: .
@@ -9,7 +9,8 @@ services:
     ports:
       - 3000:3000
     depends_on:
-      - db
+      db:
+        condition: service_started
   db:
     image: postgres:alpine3.15
     environment:
