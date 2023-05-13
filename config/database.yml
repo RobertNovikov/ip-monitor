@@ -1,0 +1,19 @@
+defaults: &defaults
+  adapter: postgresql
+  user: <%= ENV['POSTGRES_USER'] %>
+  password: <%= ENV['POSTGRES_PASSWD'] %>
+  host: <%= ENV['POSTGRES_HOST'] %>
+  port: 5432
+  max_connections: 10
+
+test:
+  database: ip-monitor-test
+  <<: *defaults
+
+production:
+  database: ip-monitor-production
+  <<: *defaults
+
+development:
+  database: ip-monitor-development
+  <<: *defaults
