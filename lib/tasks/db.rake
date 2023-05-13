@@ -6,7 +6,7 @@ namespace :db do
   task version: :environment do
     next puts 'No schema migrations table' unless DB.tables.include?(:schema_migrations)
 
-    data = DB[:schema_migrations].first
+    data = DB[:schema_migrations].all.last
     version = data ? data[:filename].to_s.split('_', 2).first.to_i : 0
 
     puts "Schema version: #{version}"

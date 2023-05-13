@@ -1,16 +1,31 @@
 version: "3.9"
+x-backend: &backend
+  build: .
+  environment:
+    POSTGRES_USER: postgres
+    POSTGRES_PASSWD: example
+    POSTGRES_HOST: db
+    REDIS_URL: redis://redis:6379/
+  depends_on:
+    db:
+      condition: service_healthy
+    redis:
+      condition: service_healthy
+
 services:
   app:
-    build: .
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWD: example
-      POSTGRES_HOST: db
+    <<: *backend
     ports:
       - 3000:3000
-    depends_on:
-      db:
-        condition: service_healthy
+
+  cron:
+    <<: *backend
+    entrypoint: /bin/sh -c "whenever --update-crontab && crond -f"
+
+  sidekiq:
+    <<: *backend
+    command: sidekiq -r ./config/application.rb
+
   db:
     image: postgres:alpine3.15
     environment:
@@ -19,6 +34,16 @@ services:
       - 5432:5432
     healthcheck:
       test: ["CMD-SHELL", "pg_isready"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - 6379
+    healthcheck:
+      test: redis-cli ping
       interval: 5s
       timeout: 5s
       retries: 5

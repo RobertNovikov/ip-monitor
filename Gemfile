@@ -3,10 +3,14 @@
 source 'https://rubygems.org'
 
 gem 'grape'
+gem 'ipaddress'
+gem 'net-ping'
 gem 'pg'
 gem 'puma'
 gem 'rack'
 gem 'sequel'
+gem 'sidekiq'
+gem 'whenever', require: false
 
 group :development do
   gem 'factory_bot'
@@ -16,7 +20,7 @@ end
 
 group :test, :development do
   gem 'byebug'
+  gem 'database_cleaner-sequel'
   gem 'rack-test'
   gem 'rspec'
-  gem 'database_cleaner-sequel'
 end

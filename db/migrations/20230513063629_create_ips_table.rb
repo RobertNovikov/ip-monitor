@@ -6,7 +6,7 @@ Sequel.migration do
       primary_key :id
 
       Integer :type
-      TrueClass :is_sync_enabled
+      TrueClass :is_sync_enabled, default: false
       String :ip
     end
   end
