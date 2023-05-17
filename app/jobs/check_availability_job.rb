@@ -9,7 +9,7 @@ class CheckAvailabilityJob
   def perform
     Ip.where(is_sync_enabled: true).order(:id).paged_each do |row|
       icmp = Net::Ping::ICMP.new(row.ip)
-      icmp.timeout = 1
+      icmp.timeout = CONSTANTS[:check_interval]
       duration = row.ipv4? ? icmp.ping : icmp.ping6
 
       retport_params = duration ? { rtt: duration } : { is_packet_lost: true }

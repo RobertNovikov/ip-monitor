@@ -7,7 +7,7 @@ Sequel.migration do
       foreign_key :ip_id, :ips
 
       TrueClass :is_packet_lost, default: false
-      Numeric :rtt
+      Float :rtt
       DateTime :created_at, default: Sequel::CURRENT_TIMESTAMP
 
       index %i[ip_id]

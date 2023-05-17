@@ -14,10 +14,10 @@ class AvailabilityStatsQuery
     DB.fetch(
       <<-SQL
         SELECT MAX(rtt) as max, MIN(rtt) as min, AVG(rtt) as avg, stddev_pop(rtt) as standard_deviation,
-          PERCENTILE_DISC(0.5) WITHIN GROUP(ORDER BY rtt) as median,
-          avg((is_packet_lost)::int) as packet_lost_percent
+          PERCENTILE_CONT(0.5) WITHIN GROUP(ORDER BY rtt) as median,
+          avg((is_packet_lost)::int)::double precision as packet_lost_percent
         FROM availability_reports
-        WHERE availability_reports.ip_id = 1 #{where_sql.presence && "AND #{where_sql}"}
+        WHERE availability_reports.ip_id = #{ip_id} #{where_sql.presence && "AND #{where_sql}"}
       SQL
     )
   end
@@ -28,8 +28,8 @@ class AvailabilityStatsQuery
 
   def build_where_sql
     queries = []
-    queries << "created_at > #{time_from}" if time_from
-    queries << "created_at > #{time_to}" if time_to
+    queries << "created_at > '#{time_from}'" if time_from
+    queries << "created_at < '#{time_to}'" if time_to
     queries.join(' AND ')
   end
 end

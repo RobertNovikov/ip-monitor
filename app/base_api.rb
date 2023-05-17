@@ -2,5 +2,5 @@
 
 # Describes api scheme
 class BaseApi < Grape::API
-  mount Api::Ips
+  mount Api::IpsEndpoints
 end
