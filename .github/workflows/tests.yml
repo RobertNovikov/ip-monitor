@@ -2,13 +2,11 @@ name: run tests
 on: push
 jobs:
   test:
-    env:
-      RACK_ENV: test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - run: |
           docker-compose build
-          docker-compose run app rake db:drop
-          docker-compose run app rake db:create
+          docker-compose run app rake db:drop RACK_ENV=test
+          docker-compose run app rake db:create RACK_ENV=test
           docker-compose run app rspec
