@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module Ips
+  # destroys ip
   class DestroyInteractor
     prepend InteractorWithContract
 
@@ -11,7 +12,7 @@ module Ips
     end
 
     def call(id:)
-      ip = yield find_item.(id: id)
+      ip = yield find_item.call(id:)
       yield destroy_associations(ip)
       destroy(ip)
     end
@@ -20,13 +21,13 @@ module Ips
 
     def destroy_associations(ip)
       ip.availability_reports_dataset.order(:id).paged_each do |availability_report|
-        return Failure(availability_report.errors) unless availability_report.destroy
+        return Failure(errors: availability_report.errors) unless availability_report.destroy
       end
       Success(ip)
     end
 
     def destroy(ip)
-      ip.destroy ? Success(ip: ip) : Failure(ip.errors)
+      ip.destroy ? Success(ip:) : Failure(errors: ip.errors)
     end
   end
 end

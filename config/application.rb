@@ -9,6 +9,7 @@ require 'boot'
 Bundler.require :default, ENV.fetch('RACK_ENV', nil)
 
 Dir[File.expand_path('../config/initializers/*.rb', __dir__)].each { |file| require file }
+Dir[File.expand_path('../app/helpers/*.rb', __dir__)].each { |file| require file }
 Dir[File.expand_path('../app/**/*.rb', __dir__)].each { |file| require file }
 
 require 'app'

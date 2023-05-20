@@ -8,9 +8,9 @@ describe Ips::UpdateInteractor do
   let(:id) { ip.id }
   let(:is_sync_enabled_param) { false }
 
-  subject { described_class.new.(id: id, is_sync_enabled: is_sync_enabled_param) }
+  subject { described_class.new.call(id:, is_sync_enabled: is_sync_enabled_param) }
 
-  context "when ip updated" do
+  context 'when ip updated' do
     it { is_expected.to be_success }
   end
 

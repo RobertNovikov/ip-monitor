@@ -7,7 +7,7 @@ describe Api::IpsEndpoints do
     let(:app) { described_class }
     let(:params) { { ip: '1.2.3.4', enabled: true } }
 
-    subject { post "/ips", params.to_json, 'CONTENT_TYPE' => 'application/json' }
+    subject { post '/ips', params.to_json, 'CONTENT_TYPE' => 'application/json' }
 
     it 'calls dependencies' do
       expect(::Ips::CreateInteractor).to receive(:new).and_call_original

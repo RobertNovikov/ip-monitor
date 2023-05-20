@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Serialize ip model
 class IpSerializer
   include JSONAPI::Serializer
 

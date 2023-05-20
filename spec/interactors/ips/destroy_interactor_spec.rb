@@ -6,12 +6,12 @@ describe Ips::DestroyInteractor do
   let(:ip) { build(:ip, ip: '1.2.3.4', type: :ipv4).save }
   let(:id) { ip.id }
 
-  subject { described_class.new.(id: id) }
+  subject { described_class.new.call(id:) }
 
-  context "when ip has reports" do
+  context 'when ip has reports' do
     let!(:availability_report) { build(:availability_report, ip_id: id).save }
 
-    context "when reports destroyed" do
+    context 'when reports destroyed' do
       it { is_expected.to be_success }
     end
 
@@ -22,8 +22,8 @@ describe Ips::DestroyInteractor do
     end
   end
 
-  context "when ip without reports" do
-    context "when ip destroyed" do
+  context 'when ip without reports' do
+    context 'when ip destroyed' do
       it { is_expected.to be_success }
     end
 

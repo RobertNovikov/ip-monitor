@@ -19,11 +19,9 @@ describe Ips::CalculateStatsInteractor do
   end
 
   subject do
-    described_class.new.(
-      id: id,
-      time_from: one_hour_ago.strftime("%m/%d/%Y %H:%m"),
-      time_to: one_hour_later.strftime("%m/%d/%Y %H:%m")
-    )
+    described_class.new.call(id:,
+                             time_from: one_hour_ago.strftime('%m/%d/%Y %H:%m'),
+                             time_to: one_hour_later.strftime('%m/%d/%Y %H:%m'))
   end
 
   context 'when statistics not found' do

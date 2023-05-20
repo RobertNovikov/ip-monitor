@@ -7,7 +7,7 @@ RSpec.describe IpsContainer do
   let(:id) { ip.id }
 
   describe 'find_ip' do
-    subject { described_class.resolve(:find_ip).call(id: id) }
+    subject { described_class.resolve(:find_ip).call(id:) }
 
     context 'when ip found' do
       it { expect(subject.success).to eq(ip) }
@@ -16,14 +16,14 @@ RSpec.describe IpsContainer do
     context 'when ip not found' do
       let(:id) { 0 }
 
-      it { expect(subject.failure).to eq(errors: "Ip with id: #{id} not found") }
+      it { expect(subject.failure).to eq(errors: { ip: ["Ip with id: #{id} not found"] }, code: 404) }
     end
   end
 
   describe 'validate' do
     let(:is_sync_enabled) { false }
 
-    subject { described_class.resolve(:validate).call(ip: ip, is_sync_enabled: is_sync_enabled) }
+    subject { described_class.resolve(:validate).call(ip:, is_sync_enabled:) }
 
     context 'when different is_sync_enabled params' do
       it { expect(subject.success).to eq(ip) }
@@ -32,7 +32,9 @@ RSpec.describe IpsContainer do
     context 'when is_sync_enabled the same as in ip' do
       let(:is_sync_enabled) { ip.is_sync_enabled }
 
-      it { expect(subject.failure).to eq(errors: "is_sync_enabled already is #{is_sync_enabled}") }
+      it 'returns errors' do
+        expect(subject.failure).to eq(errors: { is_sync_enabled: ["is_sync_enabled already is #{is_sync_enabled}"] })
+      end
     end
   end
 end

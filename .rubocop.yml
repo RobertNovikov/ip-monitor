@@ -4,3 +4,7 @@ AllCops:
 Style/Documentation:
   Exclude:
     - 'db/migrate/*'
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'

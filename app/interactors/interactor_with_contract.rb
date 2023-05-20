@@ -14,6 +14,7 @@ module InteractorWithContract
     base.include Dry::Matcher.for(:call, with: Dry::Matcher::ResultMatcher)
   end
 
+  # rubocop:disable Metrics/AbcSize
   def call(*args)
     return super(*args) if args.blank?
     return contract_error('Call args are to big. Allowed only one parameter') if args.size != 1
@@ -29,6 +30,7 @@ module InteractorWithContract
 
     super(**options)
   end
+  # rubocop:enable Metrics/AbcSize
 
   def check_params_in_args(contract_params, args_params)
     missed_params = args_params - contract_params

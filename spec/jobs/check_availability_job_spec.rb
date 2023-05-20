@@ -10,7 +10,7 @@ describe CheckAvailabilityJob do
 
   before { allow(Net::Ping::ICMP).to receive(:new).and_return(OpenStruct.new(timeout: 0, ping: result)) }
 
-  context "when ping is successful" do
+  context 'when ping is successful' do
     it 'creates correct report' do
       subject
 

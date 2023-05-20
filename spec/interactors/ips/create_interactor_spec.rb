@@ -6,9 +6,9 @@ describe Ips::CreateInteractor do
   let(:enabled) { true }
   let(:ip) { '1.2.3.4' }
 
-  subject { described_class.new.(ip: ip, enabled: enabled) }
+  subject { described_class.new.call(ip:, enabled:) }
 
-  context "when ip created successfully" do
+  context 'when ip created successfully' do
     it 'saves with right params' do
       aggregate_failures do
         is_expected.to be_success

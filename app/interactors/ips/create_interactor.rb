@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module Ips
+  # creates ip
   class CreateInteractor
     prepend InteractorWithContract
 
@@ -23,7 +24,7 @@ module Ips
         nil
       end
 
-      ip ? Success(ip) : Failure(error: "Invalid IP address: #{ip}")
+      ip ? Success(ip) : Failure(errors: { ip: ['Invalid IP address'] })
     end
 
     def create(ip, enabled)
@@ -33,7 +34,7 @@ module Ips
         type: ip.ipv4? ? :ipv4 : :ipv6
       )
 
-      ip_for_save.save ? Success(ip: ip_for_save) : Failure(ip_for_save.errors)
+      ip_for_save.save ? Success(ip: ip_for_save) : Failure(errors: ip_for_save.errors)
     end
   end
 end

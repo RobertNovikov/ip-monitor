@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module Ips
+  # calculates stats for ip
   class CalculateStatsInteractor
     prepend InteractorWithContract
 
@@ -8,12 +9,12 @@ module Ips
 
     contract do
       required(:id).filled(:integer)
-      optional(:time_from).maybe { str? & format?(/^\d{2}\/\d{2}\/\d{4}\s\d{2}:\d{2}$/)}
-      optional(:time_to).maybe { str? & format?(/^\d{2}\/\d{2}\/\d{4}\s\d{2}:\d{2}$/)}
+      optional(:time_from).maybe { str? & format?(%r{^\d{2}/\d{2}/\d{4}\s\d{2}:\d{2}$}) }
+      optional(:time_to).maybe { str? & format?(%r{^\d{2}/\d{2}/\d{4}\s\d{2}:\d{2}$}) }
     end
 
     def call(id:, time_from:, time_to:)
-      ip = yield find_item.(id: id)
+      ip = yield find_item.call(id:)
       yield statistics_present?(ip, time_from, time_to)
       calculate(ip, time_from, time_to)
     end
@@ -24,7 +25,7 @@ module Ips
       scope = ip.availability_reports_dataset
       scope = scope.where { created_at > time_from } if time_from
       scope = scope.where { created_at < time_to } if time_to
-      scope.present? ? Success(ip:, time_from:, time_to:) : Failure(errors: "Statistics not found")
+      scope.present? ? Success(ip:, time_from:, time_to:) : Failure(errors: { ip: ['Statistics not found'] })
     end
 
     def calculate(ip, time_from, time_to)

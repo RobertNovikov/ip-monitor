@@ -2,15 +2,16 @@
 
 source 'https://rubygems.org'
 
-gem 'dry-validation'
-gem 'dry-schema'
-gem 'dry-transaction'
-gem 'dry-monads'
 gem 'dry-container'
 gem 'dry-matcher'
+gem 'dry-monads'
+gem 'dry-schema'
+gem 'dry-transaction'
 gem 'dry-types'
+gem 'dry-validation'
 
 gem 'grape'
+gem 'grape-swagger'
 gem 'ipaddress'
 gem 'jsonapi-serializer'
 gem 'net-ping'

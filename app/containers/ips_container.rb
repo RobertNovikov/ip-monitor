@@ -7,14 +7,14 @@ class IpsContainer
 
   register :find_ip, (lambda do |input|
     ip = Ip.find(id: input[:id])
-    ip ? Success(ip) : Failure(errors: "Ip with id: #{input[:id]} not found")
+    ip ? Success(ip) : Failure(errors: { ip: ["Ip with id: #{input[:id]} not found"] }, code: 404)
   end)
 
   register :validate, (lambda do |input|
     if input[:ip].is_sync_enabled != input[:is_sync_enabled]
       Success(input[:ip])
     else
-      Failure(errors: "is_sync_enabled already is #{input[:is_sync_enabled]}")
+      Failure(errors: { is_sync_enabled: ["is_sync_enabled already is #{input[:is_sync_enabled]}"] })
     end
   end)
 end
